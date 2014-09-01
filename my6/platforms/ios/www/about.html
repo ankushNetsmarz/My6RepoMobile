@@ -1,0 +1,54 @@
+<!-- 
+Weexcel software Limited,
+Sector-7C, Madhya Marg,
+Chandigarh.
+The page shows brief information about the application.
+ -->
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="splash-bg">
+  <div class="interest-topbar">
+    <div class="left-top-btn">
+      <button type="button" class="back_btn_top" onclick="back();">Back</button>
+    </div>
+    <div class="top_head_bg">
+      <label class="top_heading">ABOUT MY6</label>
+    </div>
+  </div>
+  
+  <div class="mid_area">
+    <div class="about-app">
+      <div align="center"><img src="img/splash-logo.png"></div>
+      <div class="app-detail">
+        <p><!-- content can be replacable -->
+           This application lets user to share the image with other users based on their interest.<br>
+           User can find the simillar intrest people over the app and can get connected to them.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <script src="js/jquery-2.0.2.js"></script>
+     <script>
+     
+          // the function will go back to previous page/ home screen 
+          
+          function back()  
+          {
+            var pathName = window.localStorage.getItem("pathName");
+            window.location.href = pathName;
+          }
+    </script>
+</body>
+</html>
