@@ -120,7 +120,7 @@ This page shows the description of particular feed i.2 full photo or a video, it
                 <textarea alt="" id='messageText' class="edit-input" placeholder="Type message" style="width: 100% !important;"></textarea>
             </div>
         </div>
-        <a id="sendMessage" class="common-click-btn fr" style="margin:0;">send</a>
+        <a id="sendMessage" class="common-click-btn fr" style="margin:0;">Send</a>
         <a id="cancelMessage" href="#messageModal" class="common-click-btn fl" style="margin:0;">Cancel</a>
         <div class="clr"></div>
     </div>
@@ -150,7 +150,7 @@ This page shows the description of particular feed i.2 full photo or a video, it
        
        <div id="modal2" class=" modal ModalBackground">
            
-           <div class='comment-list-area-main' style="height: 360px; overflow-y: scroll; background:url(img/cmnt-icon.png) no-repeat center center ">
+           <div class='comment-list-area-main' style=" overflow-y: scroll; background:url(img/cmnt-icon.png) no-repeat center center ">
            </div>
            
            
@@ -200,6 +200,14 @@ This page shows the description of particular feed i.2 full photo or a video, it
     <script src="js/rating.js"></script>
      <script src="js/message.js"></script>
     <script>
+        
+        $(document).on('click', 'input, textarea, div, a', function() {
+                       setTimeout(function() {
+                                  window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
+                                  }, 0);
+                       });
+        
+        
         var rateValue=0;
         $(document).ready(function () {
         
@@ -381,18 +389,27 @@ function callPaypal(x)
     {
         navigator.notification.prompt(
                                       'Write your message !!',  // message
-                                      onPrompt,                  // callback to invoke
+                                      onPrompt1,                  // callback to invoke
                                       'MY6',            // title
                                       ['Send','Cancel'],             // buttonLabels
                                       ''                 // defaultText
                                       );
     }
     
-    function onPrompt(results)
+    function onPrompt1(results)
     {
+       
         if(results.buttonIndex==1)
         {
-            SendMessage(results.input1);
+            if(results.input1.trim()=="")
+            {
+                 window.plugins.toast.show('Message can not be empty !', 'long', 'center', function(a){}, function(b){});
+            }
+            else
+            {
+                 SendMessage(results.input1);
+            }
+           
         }
         //alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
         

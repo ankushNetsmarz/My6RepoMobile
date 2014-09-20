@@ -1,4 +1,4 @@
-﻿var userId = localStorage.getItem("userId");
+var userId = localStorage.getItem("userId");
 
 var userProfileid = localStorage.getItem("profileId");
 
@@ -23,7 +23,24 @@ function disConnect() {
          
         },
         error: function (xhr) {
-            alert(xhr.responseText);
+            hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
-    });
+    }).done(function()
+            {
+            hideLoader();
+            });
+}
+
+function hideLoader() {
+    
+	$('#loaderImage').css("display", "none");
+	$('.flex').css("display", "none");
+}
+
+function showLoader() {
+    
+	$('#loaderImage').css("display", "block");
+	$('.flex').css("display", "block");
+	
 }

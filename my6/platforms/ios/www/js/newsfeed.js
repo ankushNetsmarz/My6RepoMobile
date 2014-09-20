@@ -1,4 +1,4 @@
-﻿//var ResponseArrayNewsFeed = [];
+//var ResponseArrayNewsFeed = [];
 //var userfeed = {};
 //var startPage = 1;
 //var endpage = 10;
@@ -186,6 +186,8 @@ function GetFeeds(startPage, endpage) {
         },
         error: function (xhr) {
             //alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -286,7 +288,8 @@ function AddFeed(imageURL) {
         success: function (results) {
             console.log(results);
            
-           window.plugins.toast.show('Feed Added!', 'long', 'center', function(a){}, function(b){});
+           window.plugins.toast.show('Images Feed Added!', 'short', 'center', function(a){}, function(b){});
+           window.location.replace("interest.html");
         }
     }).done(function () {
         hideLoader();

@@ -111,6 +111,8 @@ function GetProfileData() {
         },
         error: function (xhr) {
             //alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -183,8 +185,14 @@ function GetProfileDataConnect(userProfileid) {
         },
         error: function (xhr) {
           //  alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
-       });
+       }).done(function()
+               {
+               hideLoader();
+               window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+               });
 }
 
 
@@ -219,7 +227,8 @@ function isFriend() {
             }
         },
         error: function (xhr) {
-           // alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -248,7 +257,8 @@ function connect() {
 
         },
         error: function (xhr) {
-        //    alert(xhr.responseText);
+           hideLoader();
+     window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();

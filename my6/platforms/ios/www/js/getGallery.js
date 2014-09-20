@@ -1,4 +1,4 @@
-﻿
+
 var userProfileid = localStorage.getItem("profileId");
 var me = window.localStorage.getItem("me");
 var userId = localStorage.getItem("userId");
@@ -71,7 +71,9 @@ function GetImageFeeds(startPageImage, endpageImage) {
 
         },
         error: function (xhr) {
-            alert(xhr.responseText);
+           hideLoader();
+            //alert(xhr.responseText);
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -145,7 +147,8 @@ function GetVideoFeeds(startPagevideo, endpagevideo) {
             }
         },
         error: function (xhr) {
-            alert(xhr.responseText);
+           hideLoader();
+            window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();

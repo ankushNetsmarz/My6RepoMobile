@@ -22,7 +22,7 @@
                     "CoreGraphics.framework": [
                         {
                             "xml": "false",
-                            "count": 3
+                            "count": 4
                         }
                     ],
                     "AssetsLibrary.framework": [
@@ -157,6 +157,14 @@
                         {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"DatePicker\"><param name=\"ios-package\" value=\"DatePicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -219,6 +227,12 @@
             "PACKAGE_NAME": "com.my6.app"
         },
         "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.development.FavrPushNotification"
+        },
+        "com.plugin.datepicker": {
+            "PACKAGE_NAME": "com.development.FavrPushNotification"
+        },
+        "org.apache.cordova.splashscreen": {
             "PACKAGE_NAME": "com.development.FavrPushNotification"
         }
     },

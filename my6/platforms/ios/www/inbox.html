@@ -63,6 +63,7 @@ Chandigarh.
     <script src="js/toastr.min.js"></script>
        <script src="js/appConfig.js"></script>
     <script type="text/javascript">
+
         $(document).ready(function () {
        
             $("#message").hide();
@@ -70,11 +71,25 @@ Chandigarh.
         });
 
         function back() {
-            $("#message").hide();
-           window.location.replace("interest.html");
+if(flag==1)
+{
+
+$("#message").hide();
+window.location.replace("interest.html");
+flag=0;
+}
+else
+{
+
+$("#message").hide();
+window.location.replace("inbox.html");
+flag=1;
+}
+
         }
 
         $(document).on("click", ".getConversation", function () {
+
             var FeedId = $(this).attr('feedid');
            
             var conversation = $(this).attr('conversationid');
@@ -88,6 +103,7 @@ Chandigarh.
             localStorage.setItem("reciever", reciever);
         
             GetConversation(conversation);
+
         });
         $("#sendMessage").on("click", function () {
 

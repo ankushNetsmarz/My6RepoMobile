@@ -45,6 +45,8 @@ function getFriends() {
         },
         error: function (xhr) {
            // alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();

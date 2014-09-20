@@ -304,6 +304,20 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "file": "plugins/com.plugin.datepicker/www/ios/DatePicker.js",
+        "id": "com.plugin.datepicker.DatePicker",
+        "clobbers": [
+            "datePicker"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
+        "id": "org.apache.cordova.splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -319,7 +333,9 @@ module.exports.metadata =
     "com.phonegap.plugins.facebookconnect": "0.7.0",
     "nl.x-services.plugins.toast": "2.0",
     "org.apache.cordova.dialogs": "0.2.10-dev",
-    "org.apache.cordova.network-information": "0.2.11"
+    "org.apache.cordova.network-information": "0.2.11",
+    "com.plugin.datepicker": "0.3.0",
+    "org.apache.cordova.splashscreen": "0.3.3-dev"
 }
 // BOTTOM OF METADATA
 });

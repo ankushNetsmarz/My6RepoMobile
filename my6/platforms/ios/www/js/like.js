@@ -1,4 +1,4 @@
-﻿var flaglike = 0;
+var flaglike = 0;
 var userId = localStorage.getItem("userId");
 var feedId = localStorage.getItem("feedId");
 //alert(feedId);
@@ -24,6 +24,8 @@ function LikeFeed() {
 
         },
         error: function (xhr) {
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
        //     alert(xhr.responseText);
         }
     }).done(function () {
@@ -55,10 +57,10 @@ function CommentOnFeed() {
         },
         error: function (xhr) {
           //  alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
-    }).done(function () {
-        hideLoader();
-    });
+           });
 }
 
 
@@ -102,20 +104,34 @@ function GetComments() {
 
                     var date = data.ResponseData[i].commentdate;
 
+//
+//                    HTML += "<div class='comment-list-area'>"
+//                    HTML += "<img src=" + profilepath + " class='fl' width='40' height='40'>"
+//                 
+//                    HTML += "<div class='fl comment-list-text'>"
+//           
+//                    HTML += "<span><strong>" + userName + "</strong></span> &nbsp;(" + data.ResponseData[i].timeSince + ")<br>" + comment + "</div> <div class='clr'></div></div>"
+//
 
-                    HTML += "<div class='comment-list-area'>"
-                    HTML += "<img src=" + profilepath + " class='fl' width='40' height='40'>"
-                 
-                    HTML += "<div class='fl comment-list-text'>"
            
-                    HTML += "<span><strong>" + userName + "</strong></span> &nbsp;(" + data.ResponseData[i].timeSince + ")<br>" + comment + "</div> <div class='clr'></div></div>"
-
-
+           
+           
+           HTML += "<div class='comment-list-area'>"
+           HTML += "<div><img src=" + profilepath + " class='fl' width='40' height='40' style='margin-right:5px;'>"
+           HTML += "<div class='fl'><span><strong>" + userName + "</strong></span> &nbsp;(" + data.ResponseData[i].timeSince + ")</div>"
+           HTML += "<div class='clr'></div></div>"
+           HTML += "<div class='fl comment-list-text'>" + comment + "</div>"
+           HTML += "<div class='clr'></div></div>"
+           
+           
+           
                     $(".comment-list-area-main").html(HTML);
                 }
             }
         },
         error: function (xhr) {
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
          //   alert(xhr.responseText);
         }
     }).done(function () {

@@ -1,4 +1,4 @@
-﻿function SendMessage(messageText) {
+function SendMessage(messageText) {
    
     var message = messageText;
     var sender = localStorage.getItem("userId");
@@ -12,7 +12,7 @@
         "reciever": receiver,
         "feedID": feedId
     };
-
+   
     $.ajax({
         type: "POST",
         beforeSend: showLoader(),
@@ -20,8 +20,8 @@
         url: "http://174.141.233.6/MY6/api/User/SendMessage",
         data: inputdata,
         success: function (data) {
-            console.log(data);
-            $("#messageText").val('');
+           // console.log(data);
+           // $("#messageText").val('');
            // toastr.success("message sent");
            
            window.plugins.toast.show('Mesasge sent !', 'long', 'center', function(a){}, function(b){});
@@ -29,6 +29,8 @@
         },
         error: function (xhr) {
            // alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -84,6 +86,8 @@ function SendMessageThread() {
         },
         error: function (xhr) {
            // alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Sending failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();

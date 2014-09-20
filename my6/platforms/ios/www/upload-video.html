@@ -47,14 +47,15 @@ Chandigarh.
             <div>
                 <div class="profile-img" onclick="getPhoto();" style="background-image: url(img/uploadImage.png); background-repeat: no-repeat; background-position: center" height="20px;" width="20px;">
                    
-                  <div class="video">
-                        <video width="298" height="140" controls>
-                            <source id="video" src="" type="video/mp4">
+                  <div class="video" style="background-image: url(img/uploadImage.png); background-repeat: no-repeat; background-position: center;">
+                        <video width="298" height="140" controls poster="img/uploadImage.png">
+                            <source id="video" src="" type="video/mp4" >
                         </video>
                     </div>
                     
-                      <div class="upload-pic">Click here for upload video</div>
+                      <div class="upload-pic">Click here to select video</div>
                     </div>
+                
             <div class="edit-pro-detail" style="">
                     <ul>
                      
@@ -181,24 +182,24 @@ Chandigarh.
 
             $("#upload_video").on("click", function () {
 
-                title = $("#Title").val();
+                title = $("#Title").val().trim();
 
                 if (path == null) {
 //                    $('.flex').css("display", "block");
 //                    $(".message-area").text("no video to upload");
 //                    $(".alert-box").show();
-   window.plugins.toast.show('Choose vedio to upload !', 'short', 'center', function(a){}, function(b){});
+   window.plugins.toast.show('Choose video to upload !', 'short', 'center', function(a){}, function(b){});
 
                 }
                 else if (title == "") {
 //                    $('.flex').css("display", "block");
 //                    $(".message-area").text("title cant be empty");
 //                    $(".alert-box").show();
-        window.plugins.toast.show('Title cannot be empty !', 'short', 'center', function(a){}, function(b){});
+        window.plugins.toast.show('Title can not be empty !', 'short', 'center', function(a){}, function(b){});
 
                 }
                 else {
-                    var location = $('#location').val();
+                    var location = $('#location').val().trim();
 
                     validatelocation(location);
 
@@ -298,10 +299,11 @@ Chandigarh.
 
         function win(r) {
             hideLoader();
-            window.plugins.toast.show('Feed Added!', 'long', 'center', function(a){}, function(b){});
+            window.plugins.toast.show('Image Feed Added!', 'long', 'center', function(a){}, function(b){});
             console.log("Code = " + r.responseCode);
             console.log("Response = " + r.response);
             console.log("Sent = " + r.bytesSent);
+            window.location.replace("interest.html");
 
         }
 

@@ -22,7 +22,27 @@ function isFeedLiked(feedId, userfeedId) {
                 flaglike = 0;
               
             }
-        }
-    });
+        },
+           error:function(xhr)
+           {
+           hideLoader();
+           }
+    }).done(function()
+            {
+             hideLoader();
+            });
 
+}
+
+function hideLoader() {
+    
+	$('#loaderImage').css("display", "none");
+	$('.flex').css("display", "none");
+}
+
+function showLoader() {
+    
+	$('#loaderImage').css("display", "block");
+	$('.flex').css("display", "block");
+	
 }

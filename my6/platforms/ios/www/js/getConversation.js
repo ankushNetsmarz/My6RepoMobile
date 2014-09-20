@@ -1,5 +1,8 @@
-﻿
+
 //Get full conversation between 2 users for a specific feedid
+
+var flag=1;
+
 function GetConversation(conversation) {
     var HTML = "";
     var inputdata = {
@@ -53,11 +56,30 @@ function GetConversation(conversation) {
 
                 $(".message-area").html(HTML);
                 $("#message").show();
+           flag=0;
             }
         },
         error: function (xhr) {
            // alert(xhr.responseText);
+            hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
-    });
+    }).done(function()
+            {
+             hideLoader();
+            });
+}
+
+function hideLoader() {
+    
+	$('#loaderImage').css("display", "none");
+	$('.flex').css("display", "none");
+}
+
+function showLoader() {
+    
+	$('#loaderImage').css("display", "block");
+	$('.flex').css("display", "block");
+	
 }
 

@@ -8,14 +8,6 @@
  
  -->
 
-
-
-
-
-
-
-
-
 <!doctype html>
 
 <html>
@@ -36,10 +28,7 @@
                     
     </head>
     
-    
-    
     <body>
-        
         
         
         <div>
@@ -92,7 +81,7 @@
             
             
     <!-- Login div; user can input registered username and email -->
-        <div id="LoginPanel" style="width: 100%; float: left;" class="overflow-div">
+        <div id="LoginPanel" style="width: 100%; float: left; display:none;" class="overflow-div">
             <div class="logo-login">
                 <img src="img/splash-logo.png">
             </div>
@@ -103,7 +92,6 @@
                 <div class="username-txt">
                     <input id="emailLogin" type="email" placeholder="Email" class="user-input" alt="">
                 </div>
-
 
 
                 <!-- password textbox -->
@@ -131,6 +119,9 @@
                 <a href="#SignUp">
                     <div class="need-acnt" onclick="javascript:cancel();">Need An Account?</div>
                 </a>
+                
+                <div id="forgotPasswordDiv" style="color: white; margin:10px auto 0; text-align:right; font-size:13px;"><a href="#" style="color:rgba(255, 255, 255, 0.4);">Forgot Password ?</a></div>
+                
             </div>
         </div>
             
@@ -201,9 +192,9 @@
                         
                         
                         
-                        <a href="#SignUp" id="cancelSubmit" class="signup-btn fl">Cancel</a>
+                        <a href="#SignUp" id="cancelSubmit" class="signup-btn fl">Back</a>
                         
-                        <a id="submit" class="signup-btn fr">SignUp</a>
+                        <a id="submit" class="signup-btn fr">Sign Up</a>
                         
                     </div>
                     
@@ -235,33 +226,33 @@
         
         <script>
             
-            
+            $(document).on('blur', 'input, textarea, div, a', function() {
+                           setTimeout(function() {
+                                      window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
+                                      }, 0);
+                           });
             
             var flag = 0;
             
             $(document).ready(function () {
                               
-                              
+                             
                               
                               // alert(localStorage.getItem("email"));
                               
                               $(".alert-box").hide();
                               
                               $("#LoginPanel,#loaderImage").hide();
-                              
-                              
-                              
-                              
-                              
-                              
-                              
+                     
                               var start = localStorage.getItem("start");
-                              
-                              
-                              
+                             
                               if (start == null) {
                               
-                              $("#LoginPanel").show();
+                              setTimeout(function() {
+                                         navigator.splashscreen.hide();
+                                         }, 3000);
+                              
+                             // $("#LoginPanel").show();
                               
                             var db = window.openDatabase("Database", "1.0", "UserHistory", 200000);
                               
@@ -275,7 +266,7 @@
                               
                               $("#logoPanel").hide();
                               
-                              $("#LoginPanel").show();
+                            //  $("#LoginPanel").show();
                               
                               
                               
@@ -314,19 +305,22 @@
                               var len = results.rows.length;
                               
                               if (len == 0) {
-                              
+                              setTimeout(function() {
+                                         navigator.splashscreen.hide();
+                                         }, 3000);
                               $("#LoginPanel").show();
                               
                               }
                               
                               else {
-                              
-                              window.location.replace("interest.html");
-                              
+                             
+                              navigator.splashscreen.hide();
+                               window.location.replace("interest.html");
+
+                        
                               }
                               
                               }
-                              
                               
                               
                               function errorCB(err) {
@@ -347,7 +341,7 @@
                               
                               $('#Firsti').blur(function () {
                                                 
-                                                if ($(this).val() == "") {
+                                                if ($(this).val().trim() == "") {
                                                 
                                                 $(".signup-first-txt").addClass("input-alert");
                                                 
@@ -365,7 +359,7 @@
                               
                               $('#Lasts').blur(function () {
                                                
-                                               if ($(this).val() == "") {
+                                               if ($(this).val().trim() == "") {
                                                
                                                $(".signup-last-txt").addClass("input-alert");
                                                
@@ -385,7 +379,7 @@
                               
                               $('#emails').blur(function () {
                                                 
-                                                if ($(this).val() == "") {
+                                                if ($(this).val().trim() == "") {
                                                 
                                                 $(".signup-email-txt").addClass("input-alert");
                                                 
@@ -539,19 +533,14 @@
                               
                               $('#emails').blur(function () {
                                                 
-                                                if ($(this).val() == "") {
-                                                
-                                                $(".signup-email-txt").addClass("input-alert");
-                                                
-                                                }
-                                                
-                                                else {
-                                                
-                                                $(".signup-email-txt").removeClass("input-alert");
+                                                if(!validateEmail($(this).val().trim()))
+                                                   {
+                                                   $(".signup-email-txt").addClass("input-alert");
+                                                 window.plugins.toast.show('Please, enter valid email!', 'short', 'center', function(a){}, function(b){});
+                                                   }
                                                 
                                                 
                                                 
-                                                }
                                                 
                                                 });
                               
@@ -595,9 +584,9 @@
                               
                               $('#submit').on("click", function () {
                                               
+                                              var f,l,e,p;
                                               
-                                              
-                                              if ($("#Firsti").val() == "") {
+                                              if ($("#Firsti").val().trim() == "") {
                                               
 //                                              $('.flex').css("display", "block");
 //                                              
@@ -605,7 +594,7 @@
 //                                              
 //                                              $(".alert-box").show();
                                               
-                                               window.plugins.toast.show('First name cant be empty!', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('First name can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               
                                               e.preventDefault();
                                               
@@ -613,7 +602,7 @@
                                               
                                               }
                                               
-                                              if ($("#Lasts").val() == "") {
+                                              if ($("#Lasts").val().trim() == "") {
                                               
                                             //  $('.flex').css("display", "block");
                                               
@@ -621,58 +610,66 @@
                                               
                                             //  $(".alert-box").show();
                                               
-                                               window.plugins.toast.show('Last name cant be empty!', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('Last name can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               e.preventDefault();
                                               
                                               
                                               
                                               }
                                               
-                                              var sEmail = $('#emails').val();
+                                              var sEmail = $('#emails').val().trim();
+                                             if (validateEmail(sEmail)) {
+                
                                               
-                                              if (sEmail.length == "") {
+                                              if(IsEmailExists()){
+                                              window.plugins.toast.show('Email already taken !', 'short', 'center', function(a){}, function(b){});
+                                              }
                                               
-//                                              $('.flex').css("display", "block");
+                                            
+                                              
+                                              }
+                                              else
+                                              {
+                                               window.plugins.toast.show('Please, provide valid email!', 'short', 'center', function(a){}, function(b){});
+                                              }
+
+//                                              if (sEmail.length == "") {
 //                                              
-//                                              $(".message-area").text("email name cant be empty");
+////                                              $('.flex').css("display", "block");
+////                                              
+////                                              $(".message-area").text("email name cant be empty");
+////                                              
+////                                              $(".alert-box").show();
+////
+//                                               window.plugins.toast.show('Email name cant be empty!', 'short', 'center', function(a){}, function(b){});
 //                                              
-//                                              $(".alert-box").show();
-//
-                                               window.plugins.toast.show('Email name cant be empty!', 'short', 'center', function(a){}, function(b){});
+//                                              e.preventDefault();
+//                                              
+//                                              }
+//                                              else
+//                                              {
+//                                              if (validateEmail(sEmail)) {
+//                                              
+//                                              // alert('Email is valid');
+//                                              
+//                                              IsEmailExists();
+//                                              
+//                                              
+//                                              
+//                                              
+//                                              
+//                                              }
+//                                              }
                                               
-                                              e.preventDefault();
+                                             
                                               
-                                              }
-                                              
-                                              if (validateEmail(sEmail)) {
-                                              
-                                              // alert('Email is valid');
-                                              
-                                              IsEmailExists();
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              }
-                                              
-                                              else {
-                                              
-                                              $('.flex').css("display", "block");
-                                              
-                                              
-                                              
-                                              e.preventDefault();
-                                              
-                                              IsEmailExists();
-                                              
-                                              }
+                                             
                                               
                                               
                                               
                                               
                                               
-                                              var Password = $("#UserPassword").val();
+                                              var Password = $("#UserPassword").val().trim();
                                               
                                               if (Password.length == "") {
 //                                              
@@ -682,7 +679,7 @@
 //                                              
 //                                              $(".alert-box").show();
                                               
-                                               window.plugins.toast.show('Password cant be empty!', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('Password can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               
                                               e.preventDefault();
                                               
@@ -698,7 +695,7 @@
 //                                              
 //                                              $(".alert-box").show();
                                               
-                                               window.plugins.toast.show('Password must be 6 chararcter long!', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('Password must be 6 character long!', 'short', 'center', function(a){}, function(b){});
                                               e.preventDefault();
                                               
                                               }
@@ -721,7 +718,7 @@
 //                                              
 //                                              $(".alert-box").show();
                                               
-                                               window.plugins.toast.show('Confirm password cant be empty!', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('Confirm password can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               
                                               e.preventDefault();
                                               
@@ -750,14 +747,33 @@
 //                                              $('.flex').css("display", "block");
 //                                              
 //                                              $(".alert-box").show();
-                                               window.plugins.toast.show('Password didnt Match !', 'short', 'center', function(a){}, function(b){});
+                                               window.plugins.toast.show('Password does not match !', 'short', 'center', function(a){}, function(b){});
                                               e.preventDefault();
                                               
                                               }
                                               
+                                              var sEmail = $('#emails').val().trim();
+                                              if (validateEmail(sEmail)) {
                                               
                                               
-                                              AddNewUser();
+                                              if(!IsEmailExists()){
+                                               AddNewUser();
+                                             
+                                              }
+                                              else
+                                              {
+                                               window.plugins.toast.show('Email already taken !', 'short', 'center', function(a){}, function(b){});
+                                             
+                                              }
+                                              
+                                              
+                                              
+                                              }
+                                              else
+                                              {
+                                              window.plugins.toast.show('Please, provide valid email!', 'short', 'center', function(a){}, function(b){});
+                                              }
+                                            
                                               
                                               
                                               
@@ -780,15 +796,24 @@
                               
                               
                               $("#cancelSubmit").on("click", function () {
-                                                    
+                                                      $("#Firsti,#Lasts,#emails,#UserPassword,#PasswordConfirm").val("");
                                                     $("#SignUp").addClass('modal');
-                                                    
+//                                                    $("#Firsti").val("");
+//                                                     $("#Lasts").val("");
+//                                                    $("#emails").val("");
+//                                                    $("#PasswordConfirm").val("");
+//                                                    $("#UserPassword").val("");
+                              
                                                     $("#LoginPanel").show();
                                                     
                                                     });
                               
                               
-                              
+                              $("#forgotPasswordDiv").on("click",function(){
+                                                       
+                                                         askEmail();
+                                                         });
+
                               
                               
                               $("#okAlert").on("click", function () {
@@ -938,7 +963,6 @@
         }
         
         
-        
         function cancel() {
             
             if (flag == 0) {
@@ -946,8 +970,6 @@
                 $("#Firsti,#Lasts,#emails,#UserPassword,#PasswordConfirm").val("");
                 
             }
-            
-            
             
         }
         
@@ -963,13 +985,13 @@
             
             
             
-            alert("UserInfo: " + JSON.stringify(userData));
+           
             
             facebookConnectPlugin.getLoginStatus(
                                                  
                                                  function (status) {
                                                  
-                                                 alert("current status: " + JSON.stringify(status));
+                                                // alert("current status: " + JSON.stringify(status));
                                                  
                                                  
                                                  
@@ -979,7 +1001,8 @@
                                                                                   
                                                                                   function (result) {
                                                                                   
-                                                                                  alert("Posted. " + JSON.stringify(result));             },
+                                                                                 // alert("Posted. " + JSON.stringify(result));
+                                                                                  },
                                                                                   
                                                                                   function (e) {
                                                                                   
@@ -1089,6 +1112,7 @@
         
         
         function getInfo(result) {
+            alert(JSON.stringify(result));
             
             //            openFB.api({
             
@@ -1201,6 +1225,9 @@
                                           }
                                           
                                           }
+                                          
+                                          
+                                          
                                           
                                           </script>
         

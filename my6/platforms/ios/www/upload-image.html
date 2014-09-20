@@ -14,6 +14,8 @@ Chandigarh.
     <title>MY6</title>
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <link href="css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/animate.min.css">
+
 </head>
 
 <body>
@@ -46,9 +48,9 @@ Chandigarh.
         </div>
         <div class="mid_area">
             <div>
-                <div class="profile-img" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" style="background-image: url(img/uploadImage.png); background-repeat: no-repeat; background-position: center" height="20px;" width="20px;">
+                <div class="profile-img" id="imageUploadDiv" onclick="pickImageSourceAlert();" style="background-image: url(img/uploadImage.png); background-repeat: no-repeat; background-position: center" height="20px;" width="20px;">
                     <img id="image" src="">
-                    <div class="upload-pic">Click here for upload pic</div>
+                    <div class="upload-pic">Click here to select image</div>
                     </div>
                <div class="edit-pro-detail" style="">
                     <ul>
@@ -78,7 +80,7 @@ Chandigarh.
                         <li id="price">
                             <div class="fl edit-pro-head">Price <span class="fr">:</span></div>
                             <div class="fl edit-pro-name">
-                                <input id="Text1" type="text" alt="" class="edit-input"></div>
+                                <input id="Text1" type="text" alt="" class="edit-input" pattern="\d*"></div>
                         </li>
                         <li>
                             <div class="fl edit-pro-head">Interest <span class="fr">:</span></div>
@@ -185,22 +187,39 @@ Chandigarh.
 
             $("#upload_image").on("click", function () {
 
-                title = $("#Title").val();
-
+                title = $("#Title").val().trim();
+                                  var description=$("#Description").val().trim();
                 if (imageURL == null) {
 //                    $('.flex').css("display", "block");
 //                    $(".message-area").text("choose photo to upload");
 //                    $(".alert-box").show();
  window.plugins.toast.show('Choose image to upload!', 'short', 'center', function(a){}, function(b){});
+                                  $('#imageUploadDiv').addClass('animated wobble');
+                                  window.setTimeout( function(){
+                                                    $('#imageUploadDiv').removeClass('animated wobble' );
+                                                    }, 1000);
+
 
                 }
                 else if (title == "") {
-//                    $('.flex').css("display", "block");
-//                    $(".message-area").text("title cant be empty");
-//                    $(".alert-box").show();
-                                  window.plugins.toast.show('Title cant be empty !', 'short', 'center', function(a){}, function(b){});
+                                    window.plugins.toast.show('Title can not be empty !', 'short', 'center', function(a){}, function(b){});
+                                  $('#Title').addClass('animated wobble');
+                                  window.setTimeout( function(){
+                                                    $('#Title').removeClass('animated wobble' );
+                                                    }, 1000);
+                                  
+              
 
                 }
+                else if(description =="")
+                    {
+                                  window.plugins.toast.show('Description can not be empty !', 'short', 'center', function(a){}, function(b){});
+                                  $('#Description').addClass('animated wobble');
+                                  window.setTimeout( function(){
+                                                    $('#Description').removeClass('animated wobble' );
+                                                    }, 1000);
+                                  
+                    }
                 else {
                  var location = $('#location').val();
 
@@ -218,13 +237,28 @@ Chandigarh.
             if (filter.test(location)) {
                 AddFeed(imageURL);
             }
+            else if(location.length==0)
+            {
+                 window.plugins.toast.show('City name can not be empty !', 'short', 'center', function(a){}, function(b){});
+                $('#location').addClass('animated wobble');
+                window.setTimeout( function(){
+                                    $('#location').removeClass('animated wobble' );
+                                  }, 1000);
+                
+            }
             else {
 //                $('.flex').css("display", "block");
 //                $(".message-area").text('invalid city name');
 //                $(".alert-box").show();
    window.plugins.toast.show('Invalid city name !', 'short', 'center', function(a){}, function(b){});
+   $('#location').addClass('animated wobble');
+   window.setTimeout( function(){
+                     $('#location').removeClass('animated wobble' );
+                     }, 1000);
 
             }
+            
+            
         }
 
         function onPhotoURISuccess(imageURI) {
@@ -255,7 +289,7 @@ Chandigarh.
                 destinationType: destinationType.DATA_URL,
                 encodingType: encodingType,
                 sourceType: source,
-                                        allowEdit: true
+                allowEdit: true
             });
         }
 
@@ -271,6 +305,35 @@ Chandigarh.
             window.location.href = pathName;
         }
 
+
+function pickImageSourceAlert()
+{
+    
+    navigator.notification.confirm(
+                                   ' ', // message
+                                   onConfirm,            // callback to invoke with index of button pressed
+                                   'Pick image',           // title
+                                   ['PhotoLibrary','Camera','Cancel']     // buttonLabels
+                                   );
+                                   
+    
+    
+    function onConfirm(buttonIndex)
+    {
+        if(buttonIndex==1)
+        {
+    
+        getPhoto(pictureSource.PHOTOLIBRARY);
+           
+        }
+        else if(buttonIndex==2)
+        {
+             getPhoto(pictureSource.CAMERA);
+        }
+        
+        
+    }
+}
 
     </script>
 </body>

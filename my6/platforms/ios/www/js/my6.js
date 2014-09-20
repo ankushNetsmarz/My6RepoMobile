@@ -21,7 +21,7 @@ function AddNewUser() {
 
     };
 
-    if(navigator.connection.type==Connection.WIFI || navigator.connection.type==Connection.CELL_3G )
+    if(navigator.connection.type!=Connection.NONE)
     {
 
     $.ajax({
@@ -75,9 +75,9 @@ function UpdateUser() {
     var userData =
         {
             "userID": localStorage.getItem("userId"),
-            "DOB": $("#EditDOB").val(),
+            "DOB": $("#EditDOB").html(),
             "firstName": editNameNew[0],
-            "lastName": editNameNew[1],
+            "lastName": ".",
             "contactNo": $("#EditContact").val(),
             "Gender": gender,
             "locationAddress": $("#EditLocation").val()
@@ -92,10 +92,16 @@ function UpdateUser() {
         success: function (data) {
          
            
-window.plugins.toast.show('Profile Updated !', 'long', 'center', function(a){}, function(b){});
-            GetUserData();
+           window.plugins.toast.show('Profile Updated !', 'short', 'center', function(a){}, function(b){});
+           // GetUserData();
+           localStorage.setItem("login", "login");
+           window.location.replace("interest.html");
+           GetUserData();
         },
         error: function (xhr) {
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !', 'short', 'center', function(a){}, function(b){});
+           
          //   alert(xhr.responseText);
         }
     }).done(function () {
@@ -104,11 +110,12 @@ window.plugins.toast.show('Profile Updated !', 'long', 'center', function(a){}, 
 }
 
 function GetUserData() {
-
+    
     var inputdata = {
-        "UserID": localStorage.getItem("userId")
+        "userID": localStorage.getItem("userId")
     };
 
+   
     $.ajax({
         type: "GET",
         beforeSend: showLoader(),
@@ -116,8 +123,8 @@ function GetUserData() {
         url: "http://174.141.233.6/MY6/api/User/GetUserData",
         data: inputdata,
         success: function (data) {
-            console.log(data);
-            
+           
+        
             var profilePic= data.ResponseData[0].ProfilePicName;
          
        
@@ -142,7 +149,7 @@ function GetUserData() {
                 Gender = "Not Available";
             }
             if (DOB == null) {
-                DOB = "";
+                DOB = "Not Available";
             }
             if (LocationAddress == null) {
                 LocationAddress = "Not Available";
@@ -194,7 +201,9 @@ function GetUserData() {
 
         },
         error: function (xhr) {
-          //  alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !', 'short', 'center', function(a){}, function(b){});
+
         }
     }).done(function () {
         hideLoader();
@@ -237,7 +246,7 @@ window.plugins.toast.show('Some error occured, Please try again !', 'short', 'ce
 
 function IsEmailExists() {
     var userData = {
-        "email": $("#emails").val()
+        "email": $("#emails").val().trim()
     };
 
     $.ajax({
@@ -251,7 +260,7 @@ function IsEmailExists() {
             if (res == 1) {
 //                $(".message-area").text("user is already registered");
 //                $(".alert-box").show();
-window.plugins.toast.show('User is already registered !', 'long', 'center', function(a){}, function(b){});
+window.plugins.toast.show('User is already registered !', 'short', 'center', function(a){}, function(b){});
                 $("#emails").val('');
                 $("#emails").focus();
             }
@@ -276,16 +285,17 @@ function validateUser() {
         "email": $("#emailLogin").val(),
         "password": $("#passwordLogin").val()
     };
-    if(navigator.connection.type==Connection.WIFI || navigator.connection.type==Connection.CELL_3G )
+    
+    if(navigator.connection.type!=Connection.NONE)
     {
         
-    
     $.ajax({
         type: "GET",
         beforeSend: showLoader(),
         url: "http://174.141.233.6/MY6/api/user/GetLogin/",
         data: inputdata,
         success: function (data) {
+          
         	if(data.ResponseData[0].UserID != 0)
         		{
         	    createDatabase();
@@ -343,36 +353,49 @@ function validateUser() {
             }
 
             localStorage.setItem("ProfilePic", urlPic);
-
+           if(data.ResponseData[0].IsInterest==0)
+           {
+                     window.localStorage.setItem("login", "submit");
+          
+           window.location.replace("interest.html");
+           }
+           else
+           {
+           
+           interestResponseNew = interestResponse.split("|");
+           interestResponseIdNew = interestResponseId.split("|");
+           
+           for (i = 0; i < 6; i++) {
+           namesInterest.push(interestResponseNew[i]);
+           IdInterest.push(interestResponseIdNew[i]);
+           }
+           
+           localStorage.setItem("interestResponse", JSON.stringify(namesInterest));
+           localStorage.setItem("interestResponseId", JSON.stringify(IdInterest));
+            window.location.replace("interest.html");
+           }
      
-            interestResponseNew = interestResponse.split("|");
-            interestResponseIdNew = interestResponseId.split("|");
+           
 
-            for (i = 0; i < 6; i++) {
-                namesInterest.push(interestResponseNew[i]);
-                IdInterest.push(interestResponseIdNew[i]);
-            }
+           
+        
 
-            localStorage.setItem("interestResponse", JSON.stringify(namesInterest));
-            localStorage.setItem("interestResponseId", JSON.stringify(IdInterest));
-
-
-
-            if (respons == "0") {
-//                $(".message-area").text("please try again");
-//                $(".alert-box").show();
-           window.plugins.toast.show('Please try again !', 'long', 'center', function(a){}, function(b){});
-
-            }
-            else {
-                window.location.replace("interest.html");
-            }
+//            if (respons == "0") {
+////                $(".message-area").text("please try again");
+////                $(".alert-box").show();
+//           window.plugins.toast.show('Please try again !', 'long', 'center', function(a){}, function(b){});
+//
+//            }
+//          
+//            else {
+//                window.location.replace("interest.html");
+//            }
         		}
         	else
 //        		   $(".message-area").text("Please try again!!");
 //            $(".alert-box").show();
       
-           window.plugins.toast.show('Please try again !', 'long', 'center', function(a){}, function(b){});
+           window.plugins.toast.show('Email/Password does not match !', 'short', 'center', function(a){}, function(b){});
         	
 
         },
@@ -403,4 +426,131 @@ function showLoader() {
 	$('#loaderImage').css("display", "block");
 	$('.flex').css("display", "block");
 	
+}
+
+
+
+function forgotPassword(emailID) {
+    var inputdata = {
+    email: emailID
+    };
+    
+    $.ajax({
+           type: "POST",
+           //url: "http://localhost:4103/api/user/forgotpassword",
+           url: "http://174.141.233.6/MY6/api/user/forgotPassword",
+           data: inputdata,
+           success: function (data) {
+           if(data.ResponseData==1)
+           {
+           navigator.notification.confirm(
+                                          'New password has been sent to your email !!', // message
+                                          onConfirm,            // callback to invoke with index of button pressed
+                                          'MY6',           // title
+                                          ['Ok']     // buttonLabels
+                                          );
+           
+           }
+           else if(data.ResponseData==2)
+           {
+        
+           navigator.notification.confirm(
+                                          'Email id does not exists. Please, provide registered email id !!', // message
+                                          onConfirm,            // callback to invoke with index of button pressed
+                                          'MY6',           // title
+                                          ['Ok']     // buttonLabels
+                                          );
+
+           }
+          else
+           {
+          
+           navigator.notification.confirm(
+                                          'Some error occured, Please try again !', // message
+                                          onConfirm,            // callback to invoke with index of button pressed
+                                          'MY6',           // title
+                                          ['Ok']     // buttonLabels
+                                          );
+
+           }
+         
+           
+           },
+           error: function (xhr) {
+           
+          // alert(xhr.responseText);
+           }
+           });
+}
+
+
+function askEmail()
+{
+    navigator.notification.prompt(
+                                  'Provide your email id !!',  // message
+                                  onPrompt,                  // callback to invoke
+                                  'MY6',            // title
+                                  ['Submit','Cancel'],             // buttonLabels
+                                  ''                 // defaultText
+                                  );
+
+}
+
+function onPrompt(results)
+{
+    if(results.buttonIndex==1)
+    {
+        forgotPassword(results.input1);
+    }
+    
+    
+}
+
+function onConfirm(results)
+{
+    
+}
+
+
+function changePassword(userId,oldpassword,newpassword) {
+    
+    var userData = {
+    userID: userId,
+    oldpassword: oldpassword,
+    newpassword: newpassword
+    };
+    $.ajax({
+           type: "POST",
+           beforeSend: showLoader(),
+           //url: "http://localhost:4103/api/user/ChangePass",
+           url: "http://174.141.233.6/MY6/api/user/ChangePass",
+           data: userData,
+           success: function (data) {
+           hideLoader();
+           if(data.ResponseData==1)
+           {
+           navigator.notification.confirm(
+                                          'Password has been changed !', // message
+                                          onConfirm,            // callback to invoke with index of button pressed
+                                          'MY6',           // title
+                                          ['Ok']     // buttonLabels
+                                          );
+
+           }
+           else if(data.ResponseData==0)
+           {
+           navigator.notification.confirm(
+                                          'Old password does not match, make sure you type the correct password !', // message
+                                          onConfirm,            // callback to invoke with index of button pressed
+                                          'MY6',           // title
+                                          ['Ok']     // buttonLabels
+                                          );
+           }
+          
+           },
+           error: function (xhr) {
+           hideLoader();
+         
+           }
+           });
 }

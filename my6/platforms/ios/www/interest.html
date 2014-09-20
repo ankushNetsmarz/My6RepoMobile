@@ -67,7 +67,7 @@ Chandigarh.
                                     <!--<ul class="nav nav-pill pull-right">-->
                                     <div ><a onclick="return logout();" class="fl logout">Logout</a>
                                         <div class="fr msg-count-main">
-                                    <img src="img/msg-icon.png" width="33"> 
+                                    <img src="img/msg-icon.png" width="33" onclick="myInbox();">
                                     <span class="msg-count" id="messageCount1">0</span></div>
                                     <div class="clr"></div>
                                     </div>
@@ -136,13 +136,14 @@ Chandigarh.
                         </nav>
                     </div>
                 </header>
-                <div id="interest_six" class="splash-bg" style="display:none;font-size: 13px; color: white; width: 100%; height: 40px">
-                    You cannot select more than six interests
-                </div>
+               
 
                 <div class="container">
-                    <div class="mid_area" id="interest_Page">
-
+                    <div id="interest_six" class="splash-bg" style="display:none;font-size: 13px; color: white; width: 100%; height: 20 px">
+                        Pick any six interests !!
+                    </div>
+                    <div class="mid_area" id="interest_Page" style="display:none">
+                        
                         <div class="interest-box">
                             <ul>
                                 <li class="li" id="1">
@@ -474,14 +475,17 @@ Chandigarh.
                        $("#tabb" + i).text(newInterest[i]);
                    }
 
-
+                             
                    $("#interest_Page").replaceWith($("#newsfeed_Page"));
                    $("#newsfeed_Page").css("display", "block");
+                             
                }
                else {
-
-                   $("#interest_six").css("display", "none");
-                   $(".done_btn_top").css("display", "none");
+                             
+                 $("#interest_six").css("display", "block");
+                             $("#interest_Page").css("display", "block");
+                             
+                             $(".done_btn_top").css("display", "none");
                    $(".done_btn_top").attr("id", "interest_done");
                    $("#newsfeed_Page,#connect_Page").css("display", "none");
                 
@@ -734,6 +738,7 @@ Chandigarh.
            }
 
            function logins() {
+             
                $("#interest_Page").replaceWith($("#connect_Page"));
                $(".left-top-btn").hide();
                $("#connect_Page").css("display", "block");
@@ -892,7 +897,9 @@ Chandigarh.
                        else {
 
                            $(this).find('.select-tick').removeClass("select-tick").addClass("unselect-tick");
-                           $("#interest_six").css("display", "block");
+                          // $("#interest_six").css("display", "block");
+                        window.plugins.toast.show('You can  pick only six interests !', 'short', 'center', function(a){}, function(b){});
+                       
                            break;
                        }
 
@@ -917,17 +924,13 @@ Chandigarh.
 
 
                        $(".done_btn_top").css("display", "none");
-                       $("#interest_six").css("display", "none");
+                       //$("#interest_six").css("display", "none");
                        lengths = ids.length;
                        break;
 
                }
 
            });
-
-
-
-     
 
 $(document).on("click", "#newConnect", function () {
 	

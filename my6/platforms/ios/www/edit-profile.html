@@ -33,7 +33,7 @@ Also , he can change his interest and according to that user will be getting fee
       <button type="button" class="back_btn_top" onclick="back();">Back</button>
     </div>
     <div class="top_head_bg">
-      <label class="top_heading">My Profile</label>
+      <label class="top_heading">Edit Profile</label>
     </div>
     <div class="right-top-btn">
       <button type="button" class="done_btn_top" id="done">Done</button>
@@ -42,14 +42,14 @@ Also , he can change his interest and according to that user will be getting fee
   <div class="mid_area">
     <div class="edit-page">
    
-      <div class="profile-pic" onclick="getPhoto(pictureSource.PHOTOLIBRARY);"> 
+      <div class="profile-pic" onclick="pickImageSourceAlert();">
       <img id="profile"  src="">
       
       
       <div class="change-pic">Change Your Pic</div> </div>
       
  
-      <div class="edit-detail">
+      <div class="edit-detail" style="display:block;" id="editDetail">
         <ul>
              <li style="width:94%;">
            
@@ -65,9 +65,9 @@ Also , he can change his interest and according to that user will be getting fee
             <div class="fl edit-head">Gender <span class="fr">:</span></div>
             <div class="fl edit-name" >
                   <select id="selector">
-                                    <option id="male" value="Male">Male</option>
-                                    <option id="female" value="Female">Female</option>                              
-                                </select>
+                <option id="male" value="Male">Male</option>
+                <option id="female" value="Female">Female</option>
+                </select>
                 <!--<input type="text" alt="" class="edit-input" id="EditGender">-->
 
             </div>
@@ -78,11 +78,11 @@ Also , he can change his interest and according to that user will be getting fee
           </li>
             <li>
             <div class="fl edit-head">Contact No<span class="fr">:</span></div>
-            <div class="fl edit-name" ><input type="text" alt="" class="edit-input" id="EditContact"></div>
+            <div class="fl edit-name" ><input type="number" alt="" class="edit-input" id="EditContact"></div>
           </li>
               <li>
             <div class="fl edit-head">DOB <span class="fr">:</span></div>
-            <div class="fl edit-name" ><input type="text" alt="" placeholder="MM/DD/YYYY" class="edit-input" id="EditDOB"></div>
+            <div class="fl edit-name" ><div alt="" class="edit-dob"  id="EditDOB"></div></div>
           </li>
           <li>
             <div class="edit-detail-link"><a href="#" id="EditInterests">Click to Edit Interest</a></div>
@@ -90,7 +90,29 @@ Also , he can change his interest and according to that user will be getting fee
             <!--<div class="fl edit-name" ><input type="text" alt="" class="edit-input"></div>-->
           </li>
         </ul>
+        
       </div>
+      <div style="color: white; margin:0px auto; text-align:right; font-size:13px; width:87%; display:block;"><a href="#" style="color:rgba(255, 255, 255, 0.4); text-decoration:underline;" id="changePasswordText">Change Password</a></div>
+      
+      <div class="edit-detail" style="display:none;" id="changePasswordDiv">
+          <ul>
+              <li></li>
+              <li>
+                  <div class="fl pswd-head">Old Password <span class="fr">:</span></div>
+                  <div class="fl pswd-name" ><input alt="" class="edit-input" id="oldPassword" type="password"></div>
+              </li>
+              <li>
+                  <div class="fl pswd-head">New Password <span class="fr">:</span></div>
+                  <div class="fl pswd-name" ><input alt="" class="edit-input" id="newPassword" type="password"></div>
+              </li>
+              <li>
+                  <div class="fl pswd-head">Confirm Password<span class="fr">:</span></div>
+                  <div class="fl pswd-name" ><input alt="" class="edit-input" id="cnfrmPassword" type="password"></div>
+              </li>
+         </ul>
+          
+      </div>
+      
       <div class="clr"></div>
     </div>
   </div>
@@ -107,6 +129,7 @@ Also , he can change his interest and according to that user will be getting fee
     <script src="js/appConfig.js"></script>
     
     <script>
+        var isChangePasswordVisible=false;
         var pictureSource;   // picture source
         var destinationType; // sets the format of returned value 
         var imageURL, extension;
@@ -150,7 +173,7 @@ Also , he can change his interest and according to that user will be getting fee
             $("#EditLocation").val(obj.LocationAddress);
             $("#EditContact").val(obj.ContactNo);
             $("#EditInterests").val(obj.interests);
-            $("#EditDOB").val(obj.DOB);
+            $("#EditDOB").html(obj.DOB);
             $(".profile-status").val(obj.status);
 
 
@@ -177,7 +200,7 @@ Also , he can change his interest and according to that user will be getting fee
 
 
             $("#done").on("click", function () {
-
+                         
                 $(".profile-status").prop('disabled', true);
 
                 /* web-service call for updating new status */
@@ -186,10 +209,50 @@ Also , he can change his interest and according to that user will be getting fee
                 if (flag == true) {
                     /* web-service call for updating selected profile picture */
                     AddProfilePicture(imageURL);
+                          flag=false;
+                          UpdateUser();
                 }
 
+                  if(isChangePasswordVisible)
+                          {
+                         
+                          if($("#cnfrmPassword").val()==$("#newPassword").val())
+                          {
+                          if($("#cnfrmPassword").val().trim().length>5||$("#newPassword").val().trim().length>5)
+                          {
+                    
+                          changePassword(localStorage.getItem("userId"),$("#oldPassword").val(),$("#newPassword").val());
+                          
+                          $("#changePasswordDiv").css("display","none");
+                          $("#editDetail").css("display","block");
+                          $("#changePasswordText").html("Change Password");
+                          UpdateUser();
+                          }
+                          else
+                          {
+                            window.plugins.toast.show('Password should be 6 or more characters long !', 'long', 'center', function(a){}, function(b){});
+                          }
+                          }
+                          else
+                          {
+                          isChangePasswordVisible=false;
+                          navigator.notification.confirm(
+                                                         'Password does not match !', // message
+                                                         onConfirm,            // callback to invoke with index of button pressed
+                                                         'MY6',           // title
+                                                         ['Ok']     // buttonLabels
+                                                         );
+                          $("#changePasswordDiv").css("display","block");
+                          $("#editDetail").css("display","none");
+                          $("#changePasswordText").html("Change Password");
+
+                         
+                          }
+                          
+                          }
+                          
                 /* web-service call for updating other information */
-                UpdateUser();
+                
 
             });
         });
@@ -197,10 +260,11 @@ Also , he can change his interest and according to that user will be getting fee
 
         /* on selection of photo passing imageURI for uploading */
         function onPhotoURISuccess(imageURI) {
-
+            
             var largeImage = document.getElementById('profile');
             largeImage.src = "data:image/png;base64," + imageURI;
             imageURL = imageURI;
+            flag = true;
             $(".change-pic").hide();
             $("#profile").each(function () {
                 var w = $(this).width();
@@ -209,18 +273,20 @@ Also , he can change his interest and according to that user will be getting fee
 
                 }
             });
-            flag = true;
+            
+           
         }
 
 
-        / * opens default gallery of native system, i.e android or iphone */
+        // opens default gallery of native system, i.e android or iphone
         function getPhoto(source) {
             // Retrieve image file location from specified source
             navigator.camera.getPicture(onPhotoURISuccess, onFail, {
                 quality: 50,
                 destinationType: destinationType.DATA_URL,
                 encodingType: Camera.EncodingType.PNG,
-                sourceType: source
+                sourceType: source,
+                allowEdit: true
 
             });
         }
@@ -234,6 +300,87 @@ Also , he can change his interest and according to that user will be getting fee
             localStorage.setItem("login", "login");
             window.location.replace("interest.html");
         }
+    
+    
+    $("#EditDOB").on("click",function()
+                     {
+                    
+                     var options = {
+                     date: new Date(),
+                     mode: 'date',
+                     Type: 'Date',
+                     Values: 'date'
+                     };
+                     
+                     datePicker.show(options, function(date){
+                                   
+                                     var dd = date.getDate(); var mm = date.getMonth()+1;
+                                      var yyyy = date.getFullYear();
+                                     if(dd<10){dd='0'+dd}
+                                     if(mm<10){mm='0'+mm}
+                                     var today = dd+'/'+mm+'/'+yyyy;
+                                     
+                                     $("#EditDOB").html(today);
+                                     });
+                     });
+                     
+                     
+                     function pickImageSourceAlert()
+                     {
+                         
+                         navigator.notification.confirm(
+                                                        ' ', // message
+                                                        onConfirm,            // callback to invoke with index of button pressed
+                                                        'Pick image',           // title
+                                                        ['PhotoLibrary','Camera','Cancel']     // buttonLabels
+                                                        );
+                                                        
+                                                        
+                                                        
+                                                        function onConfirm(buttonIndex)
+                                                        {
+                                                            if(buttonIndex==1)
+                                                            {
+                                                                
+                                                                getPhoto(pictureSource.PHOTOLIBRARY);
+                                                                
+                                                            }
+                                                            else if(buttonIndex==2)
+                                                            {
+                                                                getPhoto(pictureSource.CAMERA);
+                                                            }
+                                                            
+                                                            
+                                                        }
+                    
+                     }
+    
+    
+        $("#changePasswordText").on("click",function(){
+                                   
+                                if(isChangePasswordVisible)
+                                    {
+                                    $("#changePasswordDiv").css("display","none");
+                                    $("#editDetail").css("display","block");
+                                     $("#changePasswordText").html("Change Password");
+                                     isChangePasswordVisible=false;
+                                    }
+                                    else
+                                    {
+                                    $("#changePasswordDiv").css("display","block");
+                                    $("#editDetail").css("display","none");
+                                    $("#changePasswordText").html("Cancel");
+                                    isChangePasswordVisible=true;
+                                    }
+                                    
+                                    
+                                   });
+    function onConfirm()
+    {
+        
+    }
+    
+
     </script>
 </body>
 

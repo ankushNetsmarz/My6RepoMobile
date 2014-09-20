@@ -29,6 +29,8 @@ function setLocation() {
          
         },
         error: function (xhr) {
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
             //alert(xhr.responseText);
         }
     }).done(function () {
@@ -80,6 +82,8 @@ function FindPeopleByProximitySearch(distance) {
         },
         error: function (xhr) {
           //  alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
@@ -132,6 +136,8 @@ function findPeople() {
         },
         error: function (xhr) {
            // alert(xhr.responseText);
+           hideLoader();
+           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
         }
     }).done(function () {
         hideLoader();
