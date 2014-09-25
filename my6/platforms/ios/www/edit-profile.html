@@ -54,7 +54,7 @@ Also , he can change his interest and according to that user will be getting fee
              <li style="width:94%;">
            
            <div class="fl user-name" style="width:87%;"><input placeholder="Enter your status" type="text" alt="" class="edit-input profile-status" style="margin:3px 0 0 !important; width:93% !important;"></div>
-               <div id="icon" class="fl">  <img src="img/edit-icon.png"/></div>
+               <div id="icon" class="fl"><img src="img/edit-icon.png"/></div>
              
           </li>
           <li>
@@ -118,7 +118,7 @@ Also , he can change his interest and according to that user will be getting fee
   </div>
   <div class="clr"></div>
 </div>
-      
+     
     <script src="js/jquery-2.0.2.js"></script>
     <script src="js/my6.js"></script>
     <script src="js/toastr.min.js"></script>
@@ -147,12 +147,24 @@ Also , he can change his interest and according to that user will be getting fee
         }
 
         $(document).ready(function () {
-     
+          var gender= localStorage.getItem("genders");
+          if(gender == null)
+          {
+          gender = "Male";
+          }
+  
             $(".profile-status").prop('disabled', true);
-            urls = localStorage.getItem("ProfilePic");
-            var new_Img = document.getElementById("profile");
-
-            new_Img.src = urls;
+   
+   
+            urls = localStorage.getItem("ProfilePic");    
+            if(urls == null)              
+            {
+                    $("#profile").prop('src', "img/white-logo-2.png");
+             }
+             else
+             {
+             $("#profile").prop('src', urls + "?v=" + (new Date().getTime()));
+             }
 
             $("#profile").each(function () {
 
@@ -169,7 +181,7 @@ Also , he can change his interest and according to that user will be getting fee
 
             localStorage.setItem("userId", obj.id);
             $("#EditName").val(obj.FirstName + " " + obj.LastName);
-            $("#EditGender").val(obj.Gender);
+            $("#selector").val(gender);
             $("#EditLocation").val(obj.LocationAddress);
             $("#EditContact").val(obj.ContactNo);
             $("#EditInterests").val(obj.interests);
@@ -205,12 +217,12 @@ Also , he can change his interest and according to that user will be getting fee
 
                 /* web-service call for updating new status */
                 updateUserStatus();
-
+                  UpdateUser();
                 if (flag == true) {
                     /* web-service call for updating selected profile picture */
                     AddProfilePicture(imageURL);
                           flag=false;
-                          UpdateUser();
+                         
                 }
 
                   if(isChangePasswordVisible)
@@ -327,6 +339,7 @@ Also , he can change his interest and according to that user will be getting fee
                      
                      function pickImageSourceAlert()
                      {
+                    
                          
                          navigator.notification.confirm(
                                                         ' ', // message

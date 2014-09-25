@@ -171,7 +171,7 @@ Chandigarh.
 </div>
 
 </div>
-
+ <script src="cordova.js"></script>
      <script src="js/jquery-2.0.2.js"></script>
       <script src="js/ratchet.js"></script>
         <script src="js/my6.js"></script>
@@ -179,7 +179,8 @@ Chandigarh.
 
     <script>
         $(document).ready(function () {
-
+   $("#userPic").prop('src',"");
+           
             $("#galleryIcons").on("click", function () {
                
               window.localStorage.setItem("me", "true");
@@ -189,21 +190,25 @@ Chandigarh.
             });
             $("#seeContact").on("click", function () {  
             
-            var value=$("#seeContact").text(); 
-                         if(value!= "Not Available")
+            var value=$("#seeContact").text();
+             
+              if(value!= "Not Available")
                          {
-              window.location = 'tel:'+value;
-               }
+             
+                                 window.location = 'tel:'+value;
+              
+                         }
+               
                });
-              //GetUserData() ;
+          
             $("#rateit5").rateit('readonly', true);
 
             $("#1,#2,#3,#4,#5,#6,#7,#8,#9,#10").hide();
             urls = localStorage.getItem("ProfilePic");
-
-            var new_Img = document.getElementById("profile");
-
-            new_Img.src = urls;
+            
+       
+             $("#profile").prop('src', urls + "?v=" + (new Date().getTime()));
+          
             $("#profile").each(function () {
                 var h = $(this).height();
                 var w = $(this).width();

@@ -303,7 +303,7 @@
                               function querySuccess(tx, results) {
                               
                               var len = results.rows.length;
-                              
+                            
                               if (len == 0) {
                               setTimeout(function() {
                                          navigator.splashscreen.hide();
@@ -328,17 +328,8 @@
                               $("#LoginPanel").show();
                               
                               }
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
+                                                                                                                                                                                                                                                                         
+                             
                               $('#Firsti').blur(function () {
                                                 
                                                 if ($(this).val().trim() == "") {
@@ -673,11 +664,7 @@
                                               
                                               if (Password.length == "") {
 //                                              
-//                                              $(".message-area").text("password cant be empty");
-//                                              
-//                                              $('.flex').css("display", "block");
-//                                              
-//                                              $(".alert-box").show();
+
                                               
                                                window.plugins.toast.show('Password can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               
@@ -689,11 +676,6 @@
                                               
                                               if ($.trim(Password).length < 6) {
                                               
-//                                              $(".message-area").text("password must be 6 chararcter long");
-//                                              
-//                                              $('.flex').css("display", "block");
-//                                              
-//                                              $(".alert-box").show();
                                               
                                                window.plugins.toast.show('Password must be 6 character long!', 'short', 'center', function(a){}, function(b){});
                                               e.preventDefault();
@@ -712,11 +694,6 @@
                                               
                                               if (ConfirmPassword.length == "") {
                                               
-//                                              $(".message-area").text("confirm password cant be empty");
-//                                              
-//                                              $('.flex').css("display", "block");
-//                                              
-//                                              $(".alert-box").show();
                                               
                                                window.plugins.toast.show('Confirm password can not be empty!', 'short', 'center', function(a){}, function(b){});
                                               
@@ -880,9 +857,7 @@
                                              
                                              localStorage.setItem("password", $("#passwordLogin").val());
                                              
-                                             
-                                             
-                                             
+                                            
                                              
                                              
                                              

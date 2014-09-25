@@ -29,10 +29,10 @@ function setLocation() {
          
         },
         error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-            //alert(xhr.responseText);
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -80,16 +80,15 @@ function FindPeopleByProximitySearch(distance) {
             
      
         },
-        error: function (xhr) {
-          //  alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+         error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
 }
-
 
 
 
@@ -134,11 +133,11 @@ function findPeople() {
               	  }
             }
         },
-        error: function (xhr) {
-           // alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+    error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -188,15 +187,4 @@ function codeLatLng1(coords, FirstName, profilepath,id) {
         }
     });
 }
-function hideLoader() {
 
-	$('#loaderImage').css("display", "none");
-	$('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-	$('#loaderImage').css("display", "block");
-	$('.flex').css("display", "block");
-	
-}

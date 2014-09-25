@@ -54,7 +54,7 @@ function GetFeeds(startPage, endpage) {
 
                     else {
 
-                        profilepath = "http://174.141.233.6/my6/Files/ProfilePictures/" + data.ResponseData[i].ProfilePicName;
+                        profilepath = "http://174.141.233.6/my6/Files/ProfilePictures/" + data.ResponseData[i].ProfilePicName+"?v="+(new Date().getTime());
                     }
                     //   else {
 
@@ -90,7 +90,7 @@ function GetFeeds(startPage, endpage) {
                     }
 
                     else {
-                        HTML += "<div class='video ' style='display:block;z-index:0'>"
+                        HTML += "<div class='video videoTouch' style='display:block;z-index:0'>"
                         HTML += "<video class='borderClass' width='180' height='100' controls='' src=" + path + ">"
                         HTML += "<source type='video/mp4' src='' id='video'></source></video></div></div>"
                     }
@@ -185,10 +185,11 @@ function GetFeeds(startPage, endpage) {
 
         },
         error: function (xhr) {
-            //alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+             if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();
+}
     }).done(function () {
         hideLoader();
     });
@@ -196,7 +197,10 @@ function GetFeeds(startPage, endpage) {
 
 
     
-
+$(document).on("click", ".videoTouch", function () {
+	checkConnection();
+	
+});
 
 $(document).on("click", "#load", function () {
   
@@ -288,7 +292,7 @@ function AddFeed(imageURL) {
         success: function (results) {
             console.log(results);
            
-           window.plugins.toast.show('Images Feed Added!', 'short', 'center', function(a){}, function(b){});
+           window.plugins.toast.show('Image Feed Added!', 'short', 'center', function(a){}, function(b){});
            window.location.replace("interest.html");
         }
     }).done(function () {
@@ -296,19 +300,3 @@ function AddFeed(imageURL) {
     });
 }
 
-
-
-
-
-function hideLoader() {
-
-    $('#loaderImage').css("display", "none");
-    $('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-    $('#loaderImage').css("display", "block");
-    $('.flex').css("display", "block");
-
-}

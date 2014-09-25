@@ -40,6 +40,7 @@ function AddNewUser() {
             if (sucess == "false") {
               //  $(".message-area").text("please try again, may be already registered");
               //  $(".alert-box").show();
+            
 window.plugins.toast.show('User already registered !', 'short', 'center', function(a){}, function(b){});
             }
             else {
@@ -66,18 +67,23 @@ window.plugins.toast.show('User already registered !', 'short', 'center', functi
 
 //update user
 function UpdateUser() { 
+	
     var editNameNew = $("#EditName").val().split(" ");
-    var gender = localStorage.getItem("gender");
-    if (gender == null) {
-       
-        gender = "Male";
-    }
+  
+    var gender = $("#selector").val();
+     localStorage.setItem("genders",gender);
+   
+    var editContact= $("#EditContact").val();
+    var loc=$("#EditLocation").val();
+    var dob=  $("#EditDOB").html();
+    
+
     var userData =
         {
             "userID": localStorage.getItem("userId"),
             "DOB": $("#EditDOB").html(),
             "firstName": editNameNew[0],
-            "lastName": ".",
+            "lastName": editNameNew[1],
             "contactNo": $("#EditContact").val(),
             "Gender": gender,
             "locationAddress": $("#EditLocation").val()
@@ -90,27 +96,26 @@ function UpdateUser() {
         url: "http://174.141.233.6/MY6/api/user/UpdateUser",
         data: userData,
         success: function (data) {
-         
-           
+       
+        	GetUserData();
            window.plugins.toast.show('Profile Updated !', 'short', 'center', function(a){}, function(b){});
            // GetUserData();
-           localStorage.setItem("login", "login");
-           window.location.replace("interest.html");
-           GetUserData();
-        },
-        error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !', 'short', 'center', function(a){}, function(b){});
+          // localStorage.setItem("login", "login");
+           //window.location.replace("interest.html");
            
-         //   alert(xhr.responseText);
-        }
+        },
+       error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
 }
 
 function GetUserData() {
-    
+   
     var inputdata = {
         "userID": localStorage.getItem("userId")
     };
@@ -137,10 +142,16 @@ function GetUserData() {
             else {
 
             	profilePic = "http://174.141.233.6/my6/Files/ProfilePictures/" + data.ResponseData[0].ProfilePicName;
-              
+            	  localStorage.setItem("ProfilePic", profilePic+"?v="+(new Date().getTime()));
             }
+            
+            
+          
+          
+
         
            var Gender = data.ResponseData[0].Gender;
+         
            var DOB = data.ResponseData[0].DOB;
            var LocationAddress = data.ResponseData[0].LocationAddress;
            var status = data.ResponseData[0].Status;
@@ -161,8 +172,11 @@ function GetUserData() {
             if (ContactNo == null) {
                 ContactNo = "Not Available";
             }
-            localStorage.setItem("ProfilePic",profilePic);
-            //    alert(data.ResponseData[0].interestsID);
+          
+            
+            
+            
+            
             user.rating = data.ResponseData[0].UserRating;
             user.id = data.ResponseData[0].UserID;
             user.FirstName = data.ResponseData[0].FirstName;
@@ -196,20 +210,19 @@ function GetUserData() {
             
             localStorage.setItem("userId", data.ResponseData[0].UserID);
             localStorage.setItem("ResponseArray", JSON.stringify(user));
-
+            
 
 
         },
-        error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !', 'short', 'center', function(a){}, function(b){});
-
-        }
+      error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
 }
-
 
 
 //Add interests
@@ -236,10 +249,12 @@ function AddInterests() {
 window.plugins.toast.show('Interest Added !', 'short', 'center', function(a){}, function(b){});
         },
         error: function (xhr) {
-//            $(".message-area").text(xhr.responseText);
-//            $(".alert-box").show();
-window.plugins.toast.show('Some error occured, Please try again !', 'short', 'center', function(a){}, function(b){});
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
+    }).done(function () {
+        hideLoader();
     });
 }
 
@@ -266,13 +281,11 @@ window.plugins.toast.show('User is already registered !', 'short', 'center', fun
             }
 
         },
-        error: function (xhr) {
-//            $(".message-area").text(xhr.responseText);
-//            $(".alert-box").show();
-
-           window.plugins.toast.show('Some error occured, Please try again !', 'long', 'center', function(a){}, function(b){});
-
-        }
+    error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -334,6 +347,7 @@ function validateUser() {
 
             localStorage.setItem("ResponseArray", JSON.stringify(user));
            localStorage.setItem("emailID",data.ResponseData[0].Email);
+           
             var respons = data.ResponseData[0].UserID;
 
             var interestResponse = data.ResponseData[0].interests;
@@ -415,18 +429,6 @@ function validateUser() {
 }
 
 
-function hideLoader() {
-
-	$('#loaderImage').css("display", "none");
-	$('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-	$('#loaderImage').css("display", "block");
-	$('.flex').css("display", "block");
-	
-}
 
 
 
@@ -549,8 +551,11 @@ function changePassword(userId,oldpassword,newpassword) {
           
            },
            error: function (xhr) {
-           hideLoader();
-         
-           }
-           });
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
+    }).done(function () {
+        hideLoader();
+    });
 }

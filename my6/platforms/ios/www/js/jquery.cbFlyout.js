@@ -56,7 +56,7 @@
           self._closeNav();
         }
         self.wasOpened = true;
-        
+        getInfo();
         //console.log('WasOpened: '+self.wasOpened+ '. Open? '+self.open);
       });
       

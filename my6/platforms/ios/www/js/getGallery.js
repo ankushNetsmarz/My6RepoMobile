@@ -70,11 +70,11 @@ function GetImageFeeds(startPageImage, endpageImage) {
             }
 
         },
-        error: function (xhr) {
-           hideLoader();
-            //alert(xhr.responseText);
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+         error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -146,10 +146,11 @@ function GetVideoFeeds(startPagevideo, endpagevideo) {
                 $("#gallery").html(HTML);
             }
         },
-        error: function (xhr) {
-           hideLoader();
-            window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+     error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -188,18 +189,7 @@ $(document).on("click", "#Loadvideo", function () {
     localStorage.setItem("endpagevideo", endpagevideo);
 });
 
-function hideLoader() {
 
-    $('#loaderImage').css("display", "none");
-    $('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-    $('#loaderImage').css("display", "block");
-    $('.flex').css("display", "block");
-
-}
 
 function showImage(x)
 {

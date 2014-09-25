@@ -23,11 +23,11 @@ function LikeFeed() {
               flaglike = 1;
 
         },
-        error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-       //     alert(xhr.responseText);
-        }
+       error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -56,11 +56,13 @@ function CommentOnFeed() {
             $("#commentOnFeed").val("");
         },
         error: function (xhr) {
-          //  alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
-           });
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
+    }).done(function () {
+        hideLoader();
+    });
 }
 
 
@@ -130,25 +132,13 @@ function GetComments() {
             }
         },
         error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-         //   alert(xhr.responseText);
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
 }
 
 
-function hideLoader() {
-
-	$('#loaderImage').css("display", "none");
-	$('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-	$('#loaderImage').css("display", "block");
-	$('.flex').css("display", "block");
-	
-}

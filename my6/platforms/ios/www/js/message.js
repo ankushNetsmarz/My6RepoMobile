@@ -27,11 +27,11 @@ function SendMessage(messageText) {
            window.plugins.toast.show('Mesasge sent !', 'long', 'center', function(a){}, function(b){});
             //console.log(data.ResponseData.length);
         },
-        error: function (xhr) {
-           // alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+         error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -85,10 +85,10 @@ function SendMessageThread() {
             //console.log(data.ResponseData.length);
         },
         error: function (xhr) {
-           // alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Sending failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });
@@ -98,17 +98,3 @@ function SendMessageThread() {
 
 
 
-
-
-function hideLoader() {
-
-	$('#loaderImage').css("display", "none");
-	$('.flex').css("display", "none");
-}
-
-function showLoader() {
-
-	$('#loaderImage').css("display", "block");
-	$('.flex').css("display", "block");
-	
-}

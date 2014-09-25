@@ -17,7 +17,14 @@ var userId = localStorage.getItem("userId");
                     console.log(results);
                    
                 //   window.plugins.toast.show('Status Updated !', 'long', 'center', function(a){}, function(b){});
-                }
-            });
-
-        }
+           
+        },
+        error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
+    }).done(function () {
+        hideLoader();
+    });
+}

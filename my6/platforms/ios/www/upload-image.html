@@ -113,12 +113,14 @@ Chandigarh.
     </div>
   
     </div>
+    
    <script src="js/appConfig.js"></script>
     <script src="js/jquery-2.0.2.js"></script>
     <script src="js/newsfeed.js"></script>
     <script src="js/toastr.min.js"></script>
       <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
          <script src="js/loader.js"></script>
+         
     <script type="text/javascript" charset="utf-8">
 
         var pictureSource;   // picture source
@@ -188,11 +190,9 @@ Chandigarh.
             $("#upload_image").on("click", function () {
 
                 title = $("#Title").val().trim();
-                                  var description=$("#Description").val().trim();
+              var description=$("#Description").val().trim();
                 if (imageURL == null) {
-//                    $('.flex').css("display", "block");
-//                    $(".message-area").text("choose photo to upload");
-//                    $(".alert-box").show();
+
  window.plugins.toast.show('Choose image to upload!', 'short', 'center', function(a){}, function(b){});
                                   $('#imageUploadDiv').addClass('animated wobble');
                                   window.setTimeout( function(){
@@ -247,9 +247,7 @@ Chandigarh.
                 
             }
             else {
-//                $('.flex').css("display", "block");
-//                $(".message-area").text('invalid city name');
-//                $(".alert-box").show();
+
    window.plugins.toast.show('Invalid city name !', 'short', 'center', function(a){}, function(b){});
    $('#location').addClass('animated wobble');
    window.setTimeout( function(){

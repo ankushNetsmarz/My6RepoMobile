@@ -15,8 +15,8 @@ function getUnreadMessageCount() {
         success: function (data) {
         
             console.log(data.ResponseData);
-            var length = data.ResponseData;
-
+            var msglength = data.ResponseData;
+              localStorage.setItem("msglength",msglength);
             //var html = "<span id='messageCount1' style='position: absolute;color: green; font-size: 13px; top: 50px;left:40px;text-align: right;z-index:10000'>" + length + " new messages </span>"
             //$("#left-flyout-nav").append(html);
             $("#messageCount1").text(length);

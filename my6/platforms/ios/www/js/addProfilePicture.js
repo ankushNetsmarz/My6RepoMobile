@@ -18,29 +18,25 @@ function AddProfilePicture(imageURL) {
         data: inputdata,
         success: function (results) {
             console.log(results);
-           
+ 
+          
            window.plugins.toast.show('Profile picture Updated !', 'short', 'center', function(a){}, function(b){});
+           urls = localStorage.getItem("ProfilePic");
+           
+           var new_Img = document.getElementById("profile");
+
+           new_Img.src = urls;
+            $("#profile").prop('src', urls + "?v=" + (new Date().getTime()));
+        
         },
-           error: function (xhr) {
-           //  alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Update failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-           }
-           }).done(function () {
-                   hideLoader();
-                   });
-    
+          error: function (xhr) {
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
+    }).done(function () {
+        hideLoader();
+    });
 }
 
-function hideLoader() {
-    
-	$('#loaderImage').css("display", "none");
-	$('.flex').css("display", "none");
-}
 
-function showLoader() {
-    
-	$('#loaderImage').css("display", "block");
-	$('.flex').css("display", "block");
-	
-}

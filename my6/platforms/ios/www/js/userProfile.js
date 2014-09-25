@@ -110,10 +110,11 @@ function GetProfileData() {
             
         },
         error: function (xhr) {
-            //alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+            if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();
+      }
     }).done(function () {
         hideLoader();
     });
@@ -122,8 +123,7 @@ function GetProfileData() {
 
 
 function GetProfileDataConnect(userProfileid) {
-    //alert(userProfileid);
-
+ 
     var inputdata = {
         "UserID": userProfileid
     };
@@ -184,14 +184,15 @@ function GetProfileDataConnect(userProfileid) {
             $(".connect-list-box").hide();
         },
         error: function (xhr) {
-          //  alert(xhr.responseText);
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();
+     }
        }).done(function()
                {
                hideLoader();
-               window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+             
                });
 }
 
@@ -227,9 +228,10 @@ function isFriend() {
             }
         },
         error: function (xhr) {
-           hideLoader();
-           window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+           if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader(); }
     }).done(function () {
         hideLoader();
     });
@@ -257,9 +259,10 @@ function connect() {
 
         },
         error: function (xhr) {
-           hideLoader();
-     window.plugins.toast.show('Failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
-        }
+          if (checkConnection())              
+                 window.plugins.toast.show('Server Connection failed, Please try again !!', 'short', 'center', function(a){}, function(b){});
+        
+  hideLoader();   }
     }).done(function () {
         hideLoader();
     });

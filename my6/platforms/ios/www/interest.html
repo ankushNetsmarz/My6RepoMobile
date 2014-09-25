@@ -387,7 +387,7 @@ Chandigarh.
         
         </div>
     </div>
-        
+     <script src="cordova.js"></script>    
   <script src="js/connect.js"></script>
   
     <script src="js/jquery-2.0.2.js"></script>
@@ -397,7 +397,7 @@ Chandigarh.
     <script src="js/main.js"></script>
     <script src="js/ratchet.js"></script>
     <script src="openfb.js"></script>
-    <script src="cordova.js"></script>
+   
     <script src="js/my6.js"></script>
     <script src="js/newsfeed.js"></script>
     <script src="js/loader.js"></script>
@@ -425,17 +425,8 @@ Chandigarh.
 
 
 
-
-
-
-           $(document).ready(function () {
-            
-               setInterval(function () {
-                   getUnreadMessageCount();
-               }
-               , 5 * 60 * 1000);
-
-
+           $(document).ready(function () {        
+                getUnreadMessageCount();                       
                $("#profileInfo").hide();
 
                $("#pp").click(function () {
@@ -483,8 +474,7 @@ Chandigarh.
                else {
                              
                  $("#interest_six").css("display", "block");
-                             $("#interest_Page").css("display", "block");
-                             
+                             $("#interest_Page").css("display", "block");              
                              $(".done_btn_top").css("display", "none");
                    $(".done_btn_top").attr("id", "interest_done");
                    $("#newsfeed_Page,#connect_Page").css("display", "none");
@@ -645,11 +635,12 @@ Chandigarh.
 
 
            $(".single-item").on("click", function () {
-
+        	    
                var pages = localStorage.getItem("page");
 
                if (pages == "connect") {
-
+            	   $("#profileInfo").slideUp(1000);
+                   $(".connect-list-box").show();
                    $(".single-item").removeClass("active");
                    $(this).addClass("active");
 
@@ -680,11 +671,9 @@ Chandigarh.
                $(".top_heading").text("NEWS FEEDS");
                $("#interest_six").css("display", "none");
                localStorage.setItem("login", "login");
-             //  GetUserData();
+            
                localStorage.setItem("page", "news");
-
                new_id = JSON.parse(localStorage.getItem("newId"));
-
                var item = JSON.parse(localStorage.getItem("test"));
 
 
@@ -729,9 +718,10 @@ Chandigarh.
 
            function getInfo() {
 
-               var urls = localStorage.getItem("ProfilePic");
-               var new_Img = document.getElementById("userPic");
-               new_Img.src = urls;
+               var urls = localStorage.getItem("ProfilePic");        
+               $("#userPic").prop('src', urls + "?v=" + (new Date().getTime()));              
+               var msglength= localStorage.getItem("msglength");           
+               $("#messageCount1").text(msglength);
 
 
 
@@ -755,60 +745,52 @@ Chandigarh.
            cases will work according to user's interest.
            */
            function ConnectPeople() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
-               window.location.replace("ConnectPeople.html");
+        	   commonFunction();
+              window.location.replace("ConnectPeople.html");
            }
            function myfriends() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("myfriends.html");
            }
 
 
            function seeProfile() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("see-profile.html");
            }
 
            function myInbox() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("inbox.html");
            }
            function edit() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("edit-profile.html");
            }
            function uploadImage() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("upload-image.html");
            }
            function uploadVideo() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("upload-video.html");
                localStorage.setItem("contentType", "video");
 
            }
            function About() {
-               localStorage.setItem("login", "login");
-               var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
-               window.localStorage.setItem("pathName", pathName);
+        	   commonFunction();
                window.location.replace("about.html");
-
-
            }
+          
+           
+           function commonFunction()
+           {
+        	 localStorage.setItem("login", "login");
+             var pathName = $(location).attr('href').substring($(location).attr('href').lastIndexOf('/') + 1);
+             window.localStorage.setItem("pathName", pathName);
+           }
+           
+           
            function logout() {
 
 
@@ -935,8 +917,10 @@ Chandigarh.
 $(document).on("click", "#newConnect", function () {
 	
     var profile = $(this).attr('userId');
-    localStorage.setItem("profileId", profile);        
+    localStorage.setItem("profileId", profile);    
+    
     $("#profileInfo").slideDown(1000);
+   
     GetProfileDataConnect(profile);
 
 });
